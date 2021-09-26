@@ -1,0 +1,38 @@
+Observable is cold, when the data is produced inside of the Observable.
+So each new subscription generates/emits the data independently from other subscription.
+
+The Observable is described as HOT, When the data comes from some common source.
+So Observable multicast the data to all of the active subscriptions.
+
+It is important to know, what kind of Observable we are using, so we know
+what behavior to expect when subscribing.
+
+E.g Cold Observable will generates the data inside. It might even cause some
+HTTP call to happen every time we subscribe.
+
+But subscribing to the HOT Observable very often doesn't cause any major logic
+to run. It just adds another Observable to watch the already existing source.
+
+Examples
+1.  Cold Observable might be an Observable which returns a set of values. So Each time
+    we subscribe, we would receive the same set of notifications.
+2.  An Observable making an HTTP request for each new subscription.
+3.  We also saw Cold Observables, which used setTimeout or setInterval inside to
+    generate a time delay when emitting the values. As timeouts and intervals were generated inside of the 
+    Observable, its means that this was done separately for each subscription, which is the way the cold Observables
+    work.
+
+Hot Examples
+1.  Dom Events. If the Observable would add a listener to an existing event 
+    source like a button's click. We would describe this Observable as HOT.
+2.  An Observable with the state of the app when using redux style libraries
+    combined with the reactive approach.
+2.  Subjects -  used to multicast the notifications.
+    An Subjects is an Observable and an Observer at the same time.
+    We can subscribe to it multiple times in various part of our app, then call the next() on it from any place to multicast
+    some values to all active subscriptions.
+
+
+There might be also some more complex Observables which behave as Hot and Cold at the same time.
+E.g. Such Observable might emit some values specific to each new subscriptions, which is cold behavior
+and then go on with multicasting, some other source which is Hot behavior
