@@ -1,0 +1,21 @@
+A creation function provides an easy way to create a new Observable
+with certain popular behavior.
+
+of => emits the values provided as arguments and completes.
+from => convert things like arrays, promises, iterables into an Observable.
+fromEvent => allows us to create an Observable from some event target. (subscribing or unsubscribing works like add or remove eventListener)
+interval/timer => generates an Observable which emits notifications with some delay or in intervals.(similar to setTimeOut or setInterval)
+forkJoin => accepts an array of Observables as input. After all these Observables complete, it emits a set of the latest values emitted by each of them.(useful if we need to wait for the result of a couple of HTTP calls)
+combineLatest => also accepts multiple input Observables. Each time any of them emits something new, a combined set of the latest values will be emitted as an array.
+
+ Creation Functions are also called Creation Operators.
+
+
+ How Creation Functions work?
+ of => allows us to create an Observable, which emits a set of values and completes.
+When we subscribe to these Observable, all values that we have provided as arguments will be emitted
+immediately as next notifications and then the Observable will complete, ending the subscription.
+
+
+
+
