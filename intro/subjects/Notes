@@ -1,0 +1,50 @@
+A subject allows us to multicast values to multiple Observers.
+It is similar to event emitter, where we can add and remove listeners and emit
+events which are sent/multicasted to all listeners.
+
+The subject is a combination of an Observable and an Observer.
+Means we can subscribe to the Subject the way we did to regular Observable
+and we can call next, error, complete methods on the Subjects to emit/multicast these notifications
+to all active subscribers.
+
+BehaviourSubject => Subject with memory and an initial value.
+
+Multicast
+
+In case of a regular Observable, we could have a cold Observable to which
+when we subscribed, its code generated a seperate source of data independently
+for each subscription.
+
+In case of Hot Observable, where each new subscription just created a new connection to an already existing source of events.
+
+Subject can be described as a Hot Obervable as Subject itself is a shared source of the notifications.
+
+We can have multiple subscription to the same subject and once we call
+'next()' on this subject, this next notification will be multicasted to all subscribers.
+
+By using Subject, we can conventiently multicast the notifications to multiple places.
+
+What causes the subject to emit a notification?
+As Subject also exposes the next, error and complete methods, just as the Observer.
+This means that we can call the next() directly on the subject and provide some value from any place in the application and the next notification will be multicasted to all active subscriptions.
+
+Duality of the Subject which is an Observable and Observer at the same time.
+An Subject is an Observable, so we can subscribe to it and use it as we would used a regular observable.
+As the Subject itself is a source of emissions, it behaves like a Hot Observable.This means that each new Subscriptions will connect to the same source of emissions which is our Subject.
+So every subscription to the same Subject will receive the same notifications at the same time.
+
+Now we can emit/multicast to these subscriptions by using the observer part of the subject.
+We can simply call next, error, complete methods on our subject from anywhere in the code and these notifications will get instantly multicasted to all active subscriptions.
+
+BehaviorSubject
+It's a minor but important extension of regular Subject.
+
+Whenever a new Observer is added, it will receive a next notification with the latest emitted value.
+So it will instantly know the most recent state.
+
+In other words, the behaviorSubject stores the latest emitted value in its memory and whenever a new subscription is made, it emits that latest value to this subscription instantly.
+
+In case of the BehaviorSubject, we need to provide some initial value
+
+BehaviorSubject works similar to regular Subject but introduces initial value.
+So BehaviorSubject can be used to store the value of the state.
