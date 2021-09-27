@@ -23,10 +23,10 @@ httpObservable$.subscribe((data) =>
   console.log("Sub 1: ", data.response.first_name)
 );
 httpObservable$.subscribe((data) =>
-  console.log("Sub 1: ", data.response.first_name)
+  console.log("Sub 2: ", data.response.first_name)
 );
 httpObservable$.subscribe((data) =>
-  console.log("Sub 1: ", data.response.first_name)
+  console.log("Sub 3: ", data.response.first_name)
 );
 /**
  * If we subscribe to the above observable multiple times, each subscription
