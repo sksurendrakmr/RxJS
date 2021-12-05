@@ -1,0 +1,57 @@
+Pipeable Opterators
+It allow us to transform the notifications emitted by
+an Observable in countless ways.
+
+Pipeable operators enable us to write and read complex asynchronous
+logic easier.
+
+With Pipeable operators, we can map and filters the emitted values,
+provide a fallback for error scenario or even start new inner
+subscriptions to some other Observables.
+
+Some of the Pipeable operators provided by Rxjs :-
+
+1. filter :- Similar to the filter operator in javascript arrays.
+   However instead of filtering the items in an array, the
+   'filter' Pipeable operator filters the emitted values.
+
+2. map : - This operator takes the emitted value and can transform it into some
+   other value.
+   Useful to extract some single property nested inside of a more complex object.
+
+3. tap : - It allows us to cause side effects without changing the notifications.
+   Usually, use for dubugging purposes.
+
+4. debounceTime : - Useful if the source Observable emits a lot of values
+   and then settles down.  
+    Often used with the input from the user.
+
+The pipeable operators can also use a completly new Observable as its output.
+Such operator is 'catchError' operator.
+
+5. catchError : - When an error notification is emitted by the source Observable,
+   this operator will not pass error through, but instead it will use the provided
+   fallback Observable as the new source.
+
+6. Flattening operator (concat/switch/mergeMap/exhaustMap) => They take the incoming emitted value and map it into another Observable.
+
+Operator Stacking
+
+-> An operator takes an Observable as input and returns a newly made observable.
+-> So instead of changing the original source Observable, the operator creates a
+new one which is extended with the logic introduced by this operator.
+-> Thus we can subscribe to this new observable created by operators.
+
+If we subscribe to such Observable, the operator's logic will be run first, which will underneath subscribe to the source observable which in effect will run
+its logic and start emitting notifications.
+
+Everytime the source Observable emits something, this notification will first reach the operator's logic before reaching our Observer.
+
+So operator's logic will decide whether the notication will reach our observable or not.
+Also it can change the emitted notifications in any way it wants or even produce
+its own emissions.
+
+In other words, each notification emitted by the source Observable is transformed
+by the operator which decides what to do with that notification further.
+
+We can also stack multiple operators together.
