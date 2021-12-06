@@ -1,0 +1,32 @@
+The catchError operator allowed us to provide a fallback
+Observable which was used when an error was emitted
+by the souce.
+
+Flattening operator
+Work similar to 'catchError' which subscribed to the
+provided Observable when an error happened.
+
+The Flattening operators do something like this but for
+emitted value (for each next notification.)
+
+Useful if we want to query the server each time the user
+changes the input values.
+
+Few flattening operator available in rxjs are concatMap,
+switchMap, mergeMap, exhaustMap.
+They differ in the way how they handle concurrency.
+
+How does a Flattening Operator react to each notification type emitted by the source Observable?
+
+The Flattening Operators create new inner subscriptions to the provided Observables generated based on the next notifications received from the source.
+Then they pass the emitted values from those inner subscription to the output.
+
+In other words, the Flattening operator will react to a next
+notification by creating a new inner subscription to the
+provided Observable.
+The good thing is that as long as the source Observable keeps emitting the values, the flattening operator will keep
+on subscribing to the provided Observable for each value.
+
+E.g. The source Observable might be the search query input emitting the text value and every time the user changes it, the flattening operator will send a request to the server with that query and the response will be emitted to the output.
+
+If the source Observable emits an error or complete notification, it will be reemitted to the output.
