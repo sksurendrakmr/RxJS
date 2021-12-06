@@ -49,3 +49,41 @@ fromEvent(fetchButton, "click")
     next: (value) => console.log(value),
     error: (error) => console.log(error),
   });
+
+/**
+ * ?How could we change things to hide the error and keep the main (the outer subscription)
+ * ?working further.
+ *
+ * *So even after an error gets emitted by the innser Observable, the main/outer
+ * *subscription wouldn't stop and would be able to handle further notifications emitted
+ * *by the source Observable.
+ *
+ * !In flattening operator, if the inner subscription emit complete notification then that
+ * !will not send to outer or main subscription.
+ *
+ * ! So if the concatMap's inner Observable would emit a complete notification,
+ * !it wouldn't be passed to the output by concatMap's logic.
+ *
+ * !So if we would add the same 'catchError' operator configuration as previously but
+ * !directly to the inner Observable, we would convert this error to a complete notification
+ * !at the level of the inner subscription, so the concatMap will see that the inner subscription
+ * !completed instead of emitting an error.
+ *
+ * !By doing so the main subscription won't receive any error or complete notifications,
+ * !so everything will keep on working.
+ *
+ */
+
+fromEvent(fetchButton, "click")
+  .pipe(
+    map((event) => endpointInput.value),
+    concatMap((value) =>
+      ajax(`https://random-data-api.com/api/${value}`).pipe(
+        catchError(() => EMPTY)
+      )
+    )
+  )
+  .subscribe({
+    next: (value) => console.log(value),
+    error: (error) => console.log(error),
+  });
