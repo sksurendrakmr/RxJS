@@ -87,3 +87,32 @@ fromEvent(fetchButton, "click")
     next: (value) => console.log(value),
     error: (error) => console.log(error),
   });
+
+/**
+ * !Each flattening operator has a different way of handling concurrency.
+ * !In other words, when we already have some inner subscription still in progress
+ * !and the new value comes from the source, each flattening operator will react differently.
+ *
+ * *In case of concatMap operator, all the request actually queued by the
+ * *concatMap operator and there was only one request in progress at once.
+ *
+ * !concurrency means what would happen if multiple values would be emitted
+ * !by the source observable with not enough time between them for the previous
+ * !inner subscription to complete.
+ *
+ * *So in case of concatMap, it will wait with handling the new value until the
+ * *previous inner subscription ends.
+ *
+ * ?And if its never end then the observable would be stuck on handling the first
+ * ?value.
+ *
+ * !With concatMap operator, if our inner observable would not complete, we would
+ * !notice this immediately when using the 'concatMap' operator as our code wouldn't
+ * !react to any of the new values coming from the source observable.
+ *
+ *!and since leaving active unused subscription is a memory leak situation.
+ *
+ * *Other advantage of concatMap operator
+ * !It wait for the previous inner subscription to finish before handling the next one.
+ * !In other words, it guarantees that all incoming values are handled one after another.
+ */
